@@ -75,8 +75,8 @@ def train() :
         keep_prob = tf.placeholder(tf.float32)
 
 
-    W = tf.Variable(tf.zeros([784,10]))
-    b = tf.Variable(tf.zeros([10]))
+    #W = tf.Variable(tf.zeros([784,10]))
+    #b = tf.Variable(tf.zeros([10]))
 
 # predict y  hypothesis function
     #y = tf.nn.softmax(tf.matmul(x,W) + b)
@@ -85,9 +85,11 @@ def train() :
     y = add_layer(dropped,500,10,'layer2',act=tf.identity)
 
     with tf.name_scope('cross_entropy'):
+        diff = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y)
         #cost function
-        cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y)))
-
+        #cross_entropy = tf.reduce_mean(tf.reduce_sum(y_ * tf.log(y)))
+        with tf.name_scope('total'):
+            cross_entropy = tf.reduce_mean(diff)
     train_step = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
         cross_entropy)
 
@@ -120,7 +122,7 @@ def train() :
 
 if __name__ == '__main__':
     FLAGS.fake_data = False
-    FLAGS.dropout = 0.9
+    FLAGS.dropout = 0.5
     FLAGS.learning_rate = 0.001
-    FLAGS.max_steps = 1000
+    FLAGS.max_steps = 10000
     train()

@@ -76,3 +76,14 @@ def getWeights(self):
 
 def getBiases(self):
     return self.sess.run(self.weights['b1'])
+
+def standard_scale(X_train,X_test):
+    preprocessor = prep.StandardScale().fit(X_train)
+    X_train = preprocessor.transform(X_train)
+    X_test = preprocessor.transform(X_test)
+    return X_train,X_test
+
+def get_random_block_from_data(data,batch_size):
+    
+
+mnist = input_data.read_data_sets('MNIST_data',one_hot = True)

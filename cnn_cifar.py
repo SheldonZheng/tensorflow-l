@@ -44,7 +44,7 @@ def loss(logits,labels):
     cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits = logits,labels = labels,name = 'cross_entropy_per_example')
     cross_entropy_mean = tf.reduce_mean(cross_entropy,name='cross_entropy')
     with tf.name_scope('accuracy'):
-        accuracy = tf.reduce_mean(tf.cast(cross_entropy, tf.float32))
+        accuracy = tf.reduce_mean(tf.cast(cross_entropy_mean, tf.float32))
     tf.summary.scalar('accuracy',accuracy)
     tf.add_to_collection('losses',cross_entropy_mean)
     return tf.add_n(tf.get_collection('losses'),name='total_loss')
